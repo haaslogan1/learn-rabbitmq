@@ -15,6 +15,9 @@ channel.QueueDeclare(queue: "task_queue",
                      exclusive: false,
                      autoDelete: false,
                      arguments: null);
+// Tell RabbitMQ not to give more than 1 message (preFetchCount < 1) at a time
+// Once the message has been consumed, prefetchCount is set back to 0 and the worker is available again
+channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
 // Inform the operator that no consumers have sent messages yet
 Console.WriteLine(" [*] Waiting for messages.");
