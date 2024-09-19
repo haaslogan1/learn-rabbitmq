@@ -17,7 +17,11 @@ var body = Encoding.UTF8.GetBytes(message);
 var properties = channel.CreateBasicProperties();
 properties.Persistent = true;
 
-channel.BasicPublish(exchange: string.Empty,
+// Declaring the Fanout exchange type
+channel.ExchangeDeclare("logs", ExchangeType.Fanout);
+
+
+channel.BasicPublish(exchange: "logs",
                      routingKey: "hello",
                      basicProperties: null,
                      body: body);
